@@ -24,7 +24,7 @@ class Vector(object):
         """Overload equality operator."""
         if not isinstance(other, Vector):
             return False
-        return (self.x == other.x) and (self.y == other.y) and (self.z, other.z)
+        return (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
 
     def __add__(self, other):
         """Overload addition operator."""
@@ -122,8 +122,8 @@ class Vector(object):
     def cross(self, other):
         """Compute cross product."""
         x = (self.y * other.z) - (self.z * other.y)
-        y = (self.x * other.z) - (self.z * other.x)
-        z = (self.y * other.x) - (self.x * other.y)
+        y = (self.z * other.x) - (self.x * other.z)
+        z = (self.x * other.y) - (self.y * other.x)
         return Vector(x, y, z)
 
     def unit_vector(self):
