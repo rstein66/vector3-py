@@ -18,6 +18,7 @@ from tests import *
 ADD_LIMIT = NP_LIMITS["ADD"]
 MUL_LIMIT = NP_LIMITS["MUL"]
 DOT_LIMIT = NP_LIMITS["DOT"]
+CRS_LIMIT = NP_LIMITS["CRS"]
 
 
 @given(x=ints(-ADD_LIMIT, ADD_LIMIT), y=ints(-ADD_LIMIT, ADD_LIMIT),
@@ -72,3 +73,14 @@ def test_dot(x, y, z, a, b, c):
     arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
     vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
     assert arr1.dot(arr2) == vec1.dot(vec2)
+
+
+@given(x=ints(-CRS_LIMIT, CRS_LIMIT), y=ints(-CRS_LIMIT, CRS_LIMIT),
+       z=ints(-CRS_LIMIT, CRS_LIMIT), a=ints(-CRS_LIMIT, CRS_LIMIT),
+       b=ints(-CRS_LIMIT, CRS_LIMIT), c=ints(-CRS_LIMIT, CRS_LIMIT))
+def test_cross(x, y, z, a, b, c):
+    arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
+    vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
+    np_result = list(np.cross(arr1, arr2))
+    my_result = _listify_vector(vec1.cross(vec2))
+    assert np_result == my_result
