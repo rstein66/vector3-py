@@ -45,7 +45,7 @@ def test_sub(a, b, c):
     (Vector(1, 2, 3), Vector(1, 2, 3), Vector(1, 4, 9)),
     (Vector(1, -2, -3), Vector(-1, -2, -3), Vector(-1, 4, 9)),
     (7, Vector(1, 2, 3), Vector(7, 14, 21)),
-    (-4, Vector(1, 2, 3), Vector(-4, -8, -21))
+    (-4, Vector(1, 2, 3), Vector(-4, -8, -12))
 ])
 def test_mul(a, b, c):
     """Test __mul__ and __rmul__."""
@@ -68,3 +68,13 @@ def test_div_by_zero(a, b):
 ])
 def test_dot(a, b, c):
     assert a.dot(b) == c == b.dot(a)
+
+
+@pytest.mark.parametrize("a,b,c", [
+    (Vector(1, 2, 0), Vector(4, 5, 6), Vector(12, -6, -3)),
+    (Vector(1, 0, 0), Vector(0, 1, 0), Vector(0, 0, 1)),
+    (Vector(0, 1, 0), Vector(1, 0, 0), Vector(0, 0, -1)),
+    (Vector(1, -7, 1), Vector(5, 2, 4), Vector(-30, 1, 37))
+])
+def test_cross(a, b, c):
+    assert a.cross(b) == c
