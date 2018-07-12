@@ -7,8 +7,6 @@ Test Vector class with a few simple test cases.
 # __rsub__
 # __truediv__
 # __rtruediv__
-# magnitude
-# cross
 # unit_vector
 
 import pytest
@@ -78,3 +76,14 @@ def test_dot(a, b, c):
 ])
 def test_cross(a, b, c):
     assert a.cross(b) == c
+
+
+@pytest.mark.parametrize("a,b", [
+    (Vector(0, 3, 4), 5),
+    (Vector(0, -3, 4), 5),
+    (Vector(0, -3, -4), 5),
+    (Vector(1, 2, 3), 3.74166),
+    (Vector(2, 3, 5), 6.16441)
+])
+def test_magnitude(a, b):
+    assert round(a.magnitude(), ndigits=5) == b

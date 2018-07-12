@@ -4,8 +4,6 @@ test_vector_hypothesis.py
 Use Hypothesis to generate test cases for Vector class.
 """
 # TODO test
-# magnitude
-# cross
 # unit_vector
 
 from hypothesis import given
@@ -19,6 +17,7 @@ ADD_LIMIT = NP_LIMITS["ADD"]
 MUL_LIMIT = NP_LIMITS["MUL"]
 DOT_LIMIT = NP_LIMITS["DOT"]
 CRS_LIMIT = NP_LIMITS["CRS"]
+MAG_LIMIT = NP_LIMITS["MAG"]
 
 
 @given(x=ints(-ADD_LIMIT, ADD_LIMIT), y=ints(-ADD_LIMIT, ADD_LIMIT),
@@ -84,3 +83,16 @@ def test_cross(x, y, z, a, b, c):
     np_result = list(np.cross(arr1, arr2))
     my_result = _listify_vector(vec1.cross(vec2))
     assert np_result == my_result
+
+
+@given(x=ints(-MAG_LIMIT, MAG_LIMIT),
+       y=ints(-MAG_LIMIT, MAG_LIMIT),
+       z=ints(-MAG_LIMIT, MAG_LIMIT))
+def test_magnitude(x, y, z):
+    arr = np.array([x, y, z])
+    vec = Vector(x, y, z)
+    np_result = np.linalg.norm(arr)
+    my_result = vec.magnitude()
+    result_avg = (np_result + my_result) / 2
+    result_diff = abs(np_result - my_result)
+    assert (np_result == my_result) or (result_diff / result_avg <= 0.00001)
