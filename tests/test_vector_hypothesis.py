@@ -1,7 +1,7 @@
 """
 test_vector_hypothesis.py
 
-Use Hypothesis to generate test cases for Vector class.
+Use Hypothesis to generate test cases for Vector3 class.
 """
 # TODO test
 # unit_vector
@@ -25,7 +25,7 @@ MAG_LIMIT = NP_LIMITS["MAG"]
        b=ints(-ADD_LIMIT, ADD_LIMIT), c=ints(-ADD_LIMIT, ADD_LIMIT))
 def test_add(x, y, z, a, b, c):
     arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
-    vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
+    vec1, vec2 = Vector3(x, y, z), Vector3(a, b, c)
     np_result = list(arr1 + arr2)
     my_result_forward = _listify_vector(vec1 + vec2)
     my_result_reverse = _listify_vector(vec2 + vec1)
@@ -37,7 +37,7 @@ def test_add(x, y, z, a, b, c):
        b=ints(-ADD_LIMIT, ADD_LIMIT), c=ints(-ADD_LIMIT, ADD_LIMIT))
 def test_sub(x, y, z, a, b, c):
     arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
-    vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
+    vec1, vec2 = Vector3(x, y, z), Vector3(a, b, c)
     assert list(arr1 - arr2) == _listify_vector(vec1 - vec2)
 
 
@@ -46,7 +46,7 @@ def test_sub(x, y, z, a, b, c):
        b=ints(-MUL_LIMIT, MUL_LIMIT), c=ints(-MUL_LIMIT, MUL_LIMIT))
 def test_mul(x, y, z, a, b, c):
     arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
-    vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
+    vec1, vec2 = Vector3(x, y, z), Vector3(a, b, c)
     np_result = list(arr1 * arr2)
     my_result_forward = _listify_vector(vec1 * vec2)
     my_result_reverse = _listify_vector(vec2 * vec1)
@@ -58,7 +58,7 @@ def test_mul(x, y, z, a, b, c):
        b=ints(-MUL_LIMIT, MUL_LIMIT), c=ints(-MUL_LIMIT, MUL_LIMIT))
 def test_div(x, y, z, a, b, c):
     try:
-        my_result = Vector(x, y, z) / Vector(a, b, c)
+        my_result = Vector3(x, y, z) / Vector3(a, b, c)
         np_result = np.array([x, y, z]) / np.array([a, b, c])
         assert list(np_result) == _listify_vector(my_result)
     except ZeroDivisionError:
@@ -70,7 +70,7 @@ def test_div(x, y, z, a, b, c):
        b=ints(-DOT_LIMIT, DOT_LIMIT), c=ints(-DOT_LIMIT, DOT_LIMIT))
 def test_dot(x, y, z, a, b, c):
     arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
-    vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
+    vec1, vec2 = Vector3(x, y, z), Vector3(a, b, c)
     assert arr1.dot(arr2) == vec1.dot(vec2)
 
 
@@ -79,7 +79,7 @@ def test_dot(x, y, z, a, b, c):
        b=ints(-CRS_LIMIT, CRS_LIMIT), c=ints(-CRS_LIMIT, CRS_LIMIT))
 def test_cross(x, y, z, a, b, c):
     arr1, arr2 = np.array([x, y, z]), np.array([a, b, c])
-    vec1, vec2 = Vector(x, y, z), Vector(a, b, c)
+    vec1, vec2 = Vector3(x, y, z), Vector3(a, b, c)
     np_result = list(np.cross(arr1, arr2))
     my_result = _listify_vector(vec1.cross(vec2))
     assert np_result == my_result
@@ -90,7 +90,7 @@ def test_cross(x, y, z, a, b, c):
        z=ints(-MAG_LIMIT, MAG_LIMIT))
 def test_magnitude(x, y, z):
     arr = np.array([x, y, z])
-    vec = Vector(x, y, z)
+    vec = Vector3(x, y, z)
     np_result = np.linalg.norm(arr)
     my_result = vec.magnitude()
     result_avg = (np_result + my_result) / 2

@@ -4,31 +4,46 @@ vector.py
 3-D vector implementation.
 
 Note: First iteration. Inefficient implementation.
+
+FIXME Move RGB aliasing functionality?
 """
 import math
 
 
-class Vector(object):
+class Vector3(object):
     def __init__(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
 
+    @property
+    def r(self):
+        """Aliases for color usecase."""
+        return self.x
+
+    @property
+    def g(self):
+        return self.y
+
+    @property
+    def b(self):
+        return self.z
+
     def __repr__(self):  # for debugging
-        return f"Vector({self.x}, {self.y}, {self.z})"
+        return f"Vector3({self.x}, {self.y}, {self.z})"
 
     def __str__(self):  # for printing
         return f"{self.x}, {self.y}, {self.z}"
 
     def __eq__(self, other):
         """Overload equality operator."""
-        if not isinstance(other, Vector):
+        if not isinstance(other, Vector3):
             return False
         return (self.x == other.x) and (self.y == other.y) and (self.z == other.z)
 
     def __add__(self, other):
         """Overload addition operator."""
-        if isinstance(other, Vector):
+        if isinstance(other, Vector3):
             x = self.x + other.x
             y = self.y + other.y
             z = self.z + other.z
@@ -36,7 +51,7 @@ class Vector(object):
             x = self.x + other
             y = self.y + other
             z = self.z + other
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     # Support "reverse[d]" addition.
     # Aliasing (w/c?) works because addition is commutative.
@@ -45,7 +60,7 @@ class Vector(object):
 
     def __sub__(self, other):
         """Overload subtraction operator."""
-        if isinstance(other, Vector):
+        if isinstance(other, Vector3):
             x = self.x - other.x
             y = self.y - other.y
             z = self.z - other.z
@@ -53,11 +68,11 @@ class Vector(object):
             x = self.x - other
             y = self.y - other
             z = self.z - other
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     def __rsub__(self, other):
         """Reversed subtraction. Subtraction is noncommutative."""
-        if isinstance(other, Vector):
+        if isinstance(other, Vector3):
             x = other.x - self.x
             y = other.y - self.y
             z = other.z - self.z
@@ -65,11 +80,11 @@ class Vector(object):
             x = other - self.x
             y = other - self.y
             z = other - self.z
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     def __mul__(self, other):
         """Overload multiplication operator."""
-        if isinstance(other, Vector):
+        if isinstance(other, Vector3):
             x = self.x * other.x
             y = self.y * other.y
             z = self.z * other.z
@@ -77,13 +92,13 @@ class Vector(object):
             x = self.x * other
             y = self.y * other
             z = self.z * other
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     __rmul__ = __mul__  # "Reverse[d]" multiplication
 
     def __truediv__(self, other):
         """Overload divison operator."""
-        if isinstance(other, Vector):
+        if isinstance(other, Vector3):
             x = self.x / other.x
             y = self.y / other.y
             z = self.z / other.z
@@ -91,11 +106,11 @@ class Vector(object):
             x = self.x / other
             y = self.y / other
             z = self.z / other
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     def __rtruediv__(self, other):
         """Reversed divison. Divison is noncommutative."""
-        if isinstance(other, Vector):
+        if isinstance(other, Vector3):
             x = other.x / self.x
             y = other.y / self.y
             z = other.z / self.z
@@ -103,7 +118,7 @@ class Vector(object):
             x = other / self.x
             y = other / self.y
             z = other / self.z
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     def magnitude(self):
         """Compute magnitude (length)."""
@@ -124,7 +139,7 @@ class Vector(object):
         x = (self.y * other.z) - (self.z * other.y)
         y = (self.z * other.x) - (self.x * other.z)
         z = (self.x * other.y) - (self.y * other.x)
-        return Vector(x, y, z)
+        return Vector3(x, y, z)
 
     def unit_vector(self):
         """Create vector whose magnitude is 1 (but retains self's direction)."""
