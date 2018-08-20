@@ -1,33 +1,30 @@
-"""
-vector.py
+# vector.py
 
-3-D vector implementation.
-
-Note: First iteration. Inefficient implementation.
-
-FIXME Move RGB aliasing functionality?
-"""
-import math
+from math import sqrt
 
 
 class Vector3(object):
+    """
+    3-D vector implementation.
+    Purpose: Provide
+    * Core functionality to ray tracing implementation.
+    * Examples of using special methods & overriding class attributes
+    (which is why packages such as `numpy` or `attrs` are not used).
+    ---
+    NOTE: Implementation prioritizes readability/simplicity over efficiency.
+    Strategies for incremental performance improvements include:
+      *  Define the `__slots__` class attribute.
+      *  Use the dot operator less frequently.
+      *  Support multiprocessing.
+    Dramatic performance improvement:
+      *  Run using PyPy, instead of CPython (since PyPy implements Python 3.5.3,
+         make minor changes like using string formatting in place of f-strings).
+    """
+
     def __init__(self, x, y, z):
         self.x = x
         self.y = y
         self.z = z
-
-    @property
-    def r(self):
-        """Aliases for color usecase."""
-        return self.x
-
-    @property
-    def g(self):
-        return self.y
-
-    @property
-    def b(self):
-        return self.z
 
     def __repr__(self):  # for debugging
         return f"Vector3({self.x}, {self.y}, {self.z})"
@@ -97,7 +94,7 @@ class Vector3(object):
     __rmul__ = __mul__  # "Reverse[d]" multiplication
 
     def __truediv__(self, other):
-        """Overload divison operator."""
+        """Overload division operator."""
         if isinstance(other, Vector3):
             x = self.x / other.x
             y = self.y / other.y
@@ -109,7 +106,7 @@ class Vector3(object):
         return Vector3(x, y, z)
 
     def __rtruediv__(self, other):
-        """Reversed divison. Divison is noncommutative."""
+        """Reversed division. Division is noncommutative."""
         if isinstance(other, Vector3):
             x = other.x / self.x
             y = other.y / self.y
@@ -125,7 +122,7 @@ class Vector3(object):
         x = self.x**2
         y = self.y**2
         z = self.z**2
-        return math.sqrt(x + y + z)
+        return sqrt(x + y + z)
 
     def dot(self, other):
         """Compute dot product."""

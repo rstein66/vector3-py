@@ -1,17 +1,14 @@
 """
 test_vector_hypothesis.py
 
-Use Hypothesis to generate test cases for Vector3 class.
+Use Hypothesis to exhaustively test valid inputs for the Vector3 class.
 """
-# TODO test
-# unit_vector
 
 from hypothesis import given
 from hypothesis.strategies import integers as ints
 import numpy as np
 
 from tests import *
-
 
 ADD_LIMIT = NP_LIMITS["ADD"]
 MUL_LIMIT = NP_LIMITS["MUL"]
@@ -96,3 +93,21 @@ def test_magnitude(x, y, z):
     result_avg = (np_result + my_result) / 2
     result_diff = abs(np_result - my_result)
     assert (np_result == my_result) or (result_diff / result_avg <= 0.00001)
+
+
+# NOTE: Uncomment to supress 'RuntimeWarning: invalid value encountered in true_divide'
+# np.seterr(divide="ignore", invalid="ignore")
+
+
+@given(x=ints(-MAG_LIMIT, MAG_LIMIT),
+       y=ints(-MAG_LIMIT, MAG_LIMIT),
+       z=ints(-MAG_LIMIT, MAG_LIMIT))
+def test_unit(x, y, z):
+    arr = np.array([x, y, z])
+    vec = Vector3(x, y, z)
+    try:
+        np_result = [round(v) for v in list(arr / np.linalg.norm(arr))]
+        my_result = [round(v) for v in _listify_vector(vec.unit_vector())]
+        assert np_result == my_result
+    except ZeroDivisionError:
+        pass

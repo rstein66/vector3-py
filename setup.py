@@ -6,8 +6,8 @@ NOTE: Purpose: local development
 
 from setuptools import setup
 
-setup(name="tracer",
-      description="'Ray Tracing in One Weekend' (Shirley) in Python",
+setup(name="vector3-py",
+      description="3-D Vector in Python",
       version="0.1",
-      packages=["tracer"],
+      packages=["vector"],
       zip_safe=False)

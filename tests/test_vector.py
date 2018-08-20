@@ -2,16 +2,12 @@
 test_vector.py
 
 Test Vector3 class with a few simple test cases.
+`test_vector_hypothesis.py` contains more exhaustive testing.
 """
-# TODO test:
-# __rsub__
-# __truediv__
-# __rtruediv__
-# unit_vector
 
 import pytest
 
-from tests import Vector3
+from tests import Vector3, _round
 
 
 @pytest.mark.parametrize("a,b,c", [
@@ -86,4 +82,13 @@ def test_cross(a, b, c):
     (Vector3(2, 3, 5), 6.16441)
 ])
 def test_magnitude(a, b):
-    assert round(a.magnitude(), ndigits=5) == b
+    assert _round(a.magnitude()) == b
+
+
+@pytest.mark.parametrize("a,b", [
+    # Source: softschools.com/formulas/physics/unit_vector_formula/83
+    (Vector3(12, -3, -4), Vector3(12/13, -3/13, -4/13)),
+    (Vector3(-2, 4, -4), Vector3(-1/3, 2/3, -2/3))
+])
+def test_unit(a, b):
+    assert a.unit_vector() == b

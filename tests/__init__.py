@@ -10,9 +10,13 @@ NP_LIMITS = {  # https://github.com/numpy/numpy/issues/5745
 }
 
 
-def _listify_vector(vector):
+def _listify_vector(vector: Vector3):
     if isinstance(vector, Vector3):
         return [vector.x, vector.y, vector.z]
 
 
-__all__ = ["Vector3", "_listify_vector", "NP_LIMITS"]
+def _round(value: float):
+    return round(value, ndigits=5)
+
+
+__all__ = ["Vector3", "_listify_vector", "_round", "NP_LIMITS"]
